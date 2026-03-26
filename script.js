@@ -5,7 +5,7 @@ const dfaOptions = [
         startState: "q0",
         acceptStates: ["q10"],
         transitions: {
-            'q0': { '1': 'q2', '0': 'q1' },
+            'Start (-)': { '1': 'q2', '0': 'q1' },
             'q1': { '1': 'q3', '0': 'q4' },
             'q2': { '1': 'q2', '0': 'q5' },
             'q3': { '1': 'q0', '0': 'q4' },
@@ -15,7 +15,7 @@ const dfaOptions = [
             'q7': { '1': 'q9', '0': 'q8' },
             'q8': { '1': 'q10', '0': 'q6' },
             'q9': { '1': 'q10', '0': 'q8' },
-            'q10': { '1': 'q10', '0': 'q10' }
+            'Accept (+)': { '1': 'q10', '0': 'q10' }
         },
         gridLayout: {
             'q0': [0, 0], 'q1': [1, -1], 'q2': [1, 1],
@@ -112,7 +112,7 @@ function renderGraph() {
         .attr("orient", "auto")
         .append("path")
         .attr("d", "M0,-5L10,0L0,5");
-        
+
     const gMain = svg.append("g").attr("class", "graph-zoom-container");
 
     const zoom = d3.zoom()
@@ -168,10 +168,10 @@ function renderGraph() {
 
     if (useGrid) {
         simulation.force("x", d3.forceX(d => width / 2 + (d.gridX - 2.5) * 140).strength(1))
-                  .force("y", d3.forceY(d => height / 2 - 80 + d.gridY * 110).strength(1));
+            .force("y", d3.forceY(d => height / 2 - 80 + d.gridY * 110).strength(1));
     } else {
         simulation.force("x", d3.forceX(width / 2).strength(0.05))
-                  .force("y", d3.forceY(height / 2 - 80).strength(0.05));
+            .force("y", d3.forceY(height / 2 - 80).strength(0.05));
     }
     simulation.force("collide", d3.forceCollide().radius(40));
 
@@ -268,7 +268,7 @@ window.addEventListener("resize", () => {
         window.currentSimulation.force("center", d3.forceCenter(width / 2, height / 2 - 80));
         if (window.currentUseGrid) {
             window.currentSimulation.force("x", d3.forceX(d => width / 2 + (d.gridX - 2.5) * 140).strength(1))
-                                    .force("y", d3.forceY(d => height / 2 - 80 + d.gridY * 110).strength(1));
+                .force("y", d3.forceY(d => height / 2 - 80 + d.gridY * 110).strength(1));
         }
         window.currentSimulation.alpha(0.3).restart();
     }
@@ -359,7 +359,7 @@ inputEl.addEventListener("input", (e) => {
     const validChars = currentDFA.alphabet.join('');
     const regex = new RegExp(`[^${validChars}]`, 'g');
     let val = e.target.value.replace(regex, "");
-    
+
     if (val !== e.target.value) {
         e.target.value = val;
     }
@@ -396,19 +396,19 @@ dfaSelector.addEventListener("change", (e) => {
     if (isPlaying) togglePlay();
     currentDFAIndex = parseInt(e.target.value);
     currentDFA = dfaOptions[currentDFAIndex];
-    
+
     currentState = currentDFA.startState;
     remainingInput = '';
     processedInput = '';
     inputEl.value = '';
-    
+
     let exStr = currentDFA.alphabet.join('') + currentDFA.alphabet[0];
     inputEl.placeholder = `e.g. ${exStr}`;
-    
+
     if (validationMsg) {
         validationMsg.textContent = `Only ${currentDFA.alphabet.join(' and ')} are allowed.`;
     }
-    
+
     renderGraph();
     updateGraphUI();
 });

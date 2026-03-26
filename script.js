@@ -123,7 +123,8 @@ function renderGraph() {
     svg.call(zoom);
 
     // Initial transform to fit larger graphs
-    const initScale = currentDFA.name.includes("DFA 2") ? 0.6 : 1;
+    const isMobile = width < 768;
+    const initScale = currentDFA.name.includes("DFA 2") ? (isMobile ? 0.35 : 0.6) : (isMobile ? 0.7 : 1);
     const tx = (width / 2) * (1 - initScale);
     const ty = (height / 2) * (1 - initScale);
     svg.call(zoom.transform, d3.zoomIdentity.translate(tx, ty).scale(initScale));

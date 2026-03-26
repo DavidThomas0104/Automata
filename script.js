@@ -2,10 +2,10 @@ const dfaOptions = [
     {
         name: "DFA 1 (Binary Strings)",
         alphabet: ["0", "1"],
-        startState: "Start (-)",
-        acceptStates: ["Accept (+)"],
+        startState: "q0",
+        acceptStates: ["q10"],
         transitions: {
-            'Start (-)': { '1': 'q2', '0': 'q1' },
+            'q0': { '1': 'q2', '0': 'q1' },
             'q1': { '1': 'q3', '0': 'q4' },
             'q2': { '1': 'q2', '0': 'q5' },
             'q3': { '1': 'q0', '0': 'q4' },
@@ -15,7 +15,7 @@ const dfaOptions = [
             'q7': { '1': 'q9', '0': 'q8' },
             'q8': { '1': 'q10', '0': 'q6' },
             'q9': { '1': 'q10', '0': 'q8' },
-            'Accept (+)': { '1': 'q10', '0': 'q10' }
+            'q10': { '1': 'q10', '0': 'q10' }
         },
         gridLayout: {
             'q0': [0, 0], 'q1': [1, -1], 'q2': [1, 1],

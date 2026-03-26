@@ -2,35 +2,35 @@ const dfaOptions = [
     {
         name: "DFA 1 (Binary Strings)",
         alphabet: ["0", "1"],
-        startState: "q0",
-        acceptStates: ["q10"],
+        startState: "-",
+        acceptStates: ["+"],
         transitions: {
-            'q0': { '1': 'q2', '0': 'q1' },
+            '-': { '1': 'q2', '0': 'q1' },
             'q1': { '1': 'q3', '0': 'q4' },
             'q2': { '1': 'q2', '0': 'q5' },
-            'q3': { '1': 'q0', '0': 'q4' },
+            'q3': { '1': '-', '0': 'q4' },
             'q4': { '1': 'q7', '0': 'q6' },
             'q5': { '1': 'q4', '0': 'q3' },
-            'q6': { '1': 'q7', '0': 'q10' },
+            'q6': { '1': 'q7', '0': '+' },
             'q7': { '1': 'q9', '0': 'q8' },
-            'q8': { '1': 'q10', '0': 'q6' },
-            'q9': { '1': 'q10', '0': 'q8' },
-            'q10': { '1': 'q10', '0': 'q10' }
+            'q8': { '1': '+', '0': 'q6' },
+            'q9': { '1': '+', '0': 'q8' },
+            '+': { '1': '+', '0': '+' }
         },
         gridLayout: {
-            'q0': [0, 0], 'q1': [1, -1], 'q2': [1, 1],
+            '-': [0, 0], 'q1': [1, -1], 'q2': [1, 1],
             'q3': [2, -1], 'q4': [2, 0], 'q5': [2, 1],
             'q6': [3, -1], 'q7': [3, 0], 'q8': [4, -1],
-            'q9': [4, 1], 'q10': [5, 0]
+            'q9': [4, 1], '+': [5, 0]
         }
     },
     {
         name: "DFA 2 ('a' / 'b' Strings)",
         alphabet: ["a", "b"],
-        startState: "Start (-)",
-        acceptStates: ["Accept (+)"],
+        startState: "-",
+        acceptStates: ["+"],
         transitions: {
-            'Start (-)': { 'a': 'T1', 'b': 'q1' },
+            '-': { 'a': 'T1', 'b': 'q1' },
             'q1': { 'a': 'q2', 'b': 'q3' },
             'q2': { 'a': 'T2', 'b': 'q4' },
             'q3': { 'a': 'T3', 'b': 'q4' },
@@ -42,15 +42,15 @@ const dfaOptions = [
             'q9': { 'a': 'q10', 'b': 'q11' },
             'q10': { 'a': 'q10', 'b': 'q12' },
             'q11': { 'a': 'q13', 'b': 'q11' },
-            'q12': { 'a': 'Accept (+)', 'b': 'q11' },
-            'q13': { 'a': 'q10', 'b': 'Accept (+)' },
-            'Accept (+)': { 'a': 'Accept (+)', 'b': 'Accept (+)' },
+            'q12': { 'a': '+', 'b': 'q11' },
+            'q13': { 'a': 'q10', 'b': '+' },
+            '+': { 'a': '+', 'b': '+' },
             'T1': { 'a': 'T1', 'b': 'T1' },
             'T2': { 'a': 'T2', 'b': 'T2' },
             'T3': { 'a': 'T3', 'b': 'T3' }
         },
         gridLayout: {
-            'Start (-)': [0, 0], 'q1': [1, 0],
+            '-': [0, 0], 'q1': [1, 0],
             'q2': [2, -1], 'q3': [2, 1],
             'q4': [3, 0],
             'q5': [4, -1], 'q6': [4, 1],
@@ -59,7 +59,7 @@ const dfaOptions = [
             'q10': [7, 0],
             'q11': [8, 1], 'q12': [8, -1],
             'q13': [9, 0],
-            'Accept (+)': [10, 0],
+            '+': [10, 0],
             'T1': [1, -2], 'T2': [2, -2], 'T3': [3, 2]
         }
     }
@@ -212,10 +212,10 @@ function renderGraph() {
 
     node.append("text")
         .attr("dy", 5)
-        .style("font-size", d => d.id.length > 3 ? "10px" : "14px")
+        .style("font-size", d => d.id.length > 5 ? "8px" : (d.id.length > 3 ? "10px" : "14px"))
         .text(d => {
-            if (d.id === currentDFA.startState) return '-';
-            if (currentDFA.acceptStates.includes(d.id)) return '+';
+            if (d.id === currentDFA.startState && !d.id.includes('-')) return '-' + d.id;
+            if (currentDFA.acceptStates.includes(d.id) && !d.id.includes('+')) return '+' + d.id;
             return d.id;
         });
 

@@ -2,8 +2,8 @@ const dfaOptions = [
     {
         name: "DFA 1 (Binary Strings)",
         alphabet: ["0", "1"],
-        startState: "q0",
-        acceptStates: ["q10"],
+        startState: "Start (-)",
+        acceptStates: ["Accept (+)"],
         transitions: {
             'Start (-)': { '1': 'q2', '0': 'q1' },
             'q1': { '1': 'q3', '0': 'q4' },

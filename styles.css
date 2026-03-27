@@ -250,6 +250,56 @@ main:active {
     font-family: monospace;
 }
 
+.history-container {
+    width: 100%;
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--panel-border);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    max-height: 120px;
+    overflow-y: auto;
+}
+
+.history-container::-webkit-scrollbar {
+    width: 6px;
+}
+.history-container::-webkit-scrollbar-track {
+    background: transparent;
+}
+.history-container::-webkit-scrollbar-thumb {
+    background: var(--edge-color);
+    border-radius: 3px;
+}
+
+.history-label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--text-secondary);
+}
+
+.history-content {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    font-family: 'Outfit', monospace;
+    font-size: 0.95rem;
+}
+
+.history-item {
+    background: rgba(59, 130, 246, 0.15);
+    border: 1px solid rgba(59, 130, 246, 0.3);
+    color: var(--text-primary);
+    padding: 0.3rem 0.6rem;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(59, 130, 246, 0.1);
+    white-space: nowrap;
+}
+
 .controls {
     display: flex;
     justify-content: center;

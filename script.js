@@ -73,6 +73,7 @@ let remainingInput = '';
 let processedInput = '';
 let isPlaying = false;
 let playInterval = null;
+let historyArray = [];
 
 const graphContainer = document.getElementById("graph-container");
 const inputEl = document.getElementById("binary-input");
@@ -88,6 +89,7 @@ const playText = document.getElementById("play-text");
 const bannerEl = document.getElementById("validity-banner");
 const dfaSelector = document.getElementById("dfa-selector");
 const validationMsg = document.getElementById("validation-msg");
+const historyDisplay = document.getElementById("history-display");
 
 function renderGraph() {
     d3.select("#graph-container").selectAll("*").remove();
@@ -322,8 +324,19 @@ function stepForward() {
     processedInput += char;
     const nextState = currentDFA.transitions[currentState][char];
     pulseLink(currentState, nextState);
+    
+    // Track transition in history
+    const historyEntry = `${currentState} (${char}) &rarr; ${nextState}`;
+    historyArray.push(historyEntry);
+    
     currentState = nextState;
     updateGraphUI();
+    
+    if (historyDisplay) {
+        historyDisplay.innerHTML = historyArray.map(item => `<span class="history-item">${item}</span>`).join('');
+        const historyContainer = historyDisplay.parentElement;
+        historyContainer.scrollTop = historyContainer.scrollHeight;
+    }
 }
 
 function togglePlay() {
@@ -350,6 +363,8 @@ function resetApp() {
     currentState = currentDFA.startState;
     remainingInput = inputEl.value;
     processedInput = '';
+    historyArray = [];
+    if (historyDisplay) historyDisplay.innerHTML = '';
     inputEl.disabled = false;
     d3.selectAll(".link").classed("active", false).select("path").attr("marker-end", "url(#arrow)");
     updateGraphUI();
@@ -368,6 +383,8 @@ inputEl.addEventListener("input", (e) => {
     remainingInput = val;
     currentState = currentDFA.startState;
     processedInput = '';
+    historyArray = [];
+    if (historyDisplay) historyDisplay.innerHTML = '';
     updateGraphUI();
 });
 
@@ -400,6 +417,8 @@ dfaSelector.addEventListener("change", (e) => {
     currentState = currentDFA.startState;
     remainingInput = '';
     processedInput = '';
+    historyArray = [];
+    if (historyDisplay) historyDisplay.innerHTML = '';
     inputEl.value = '';
 
     let exStr = currentDFA.alphabet.join('') + currentDFA.alphabet[0];
